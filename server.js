@@ -5,7 +5,7 @@ import cors from 'cors';
 const app = express();
 import mongoose from "mongoose";
 import morgan from "morgan";
-import { createProduct, getAllProducts } from "./controllers/productsController.js";
+import { createProduct, getAllProducts, getAllPremiumProducts, createPremiumProduct } from "./controllers/productsController.js";
 
 
 
@@ -30,9 +30,9 @@ app.get("/api/v1/users", (req, res) => {
 });
 
 
-app.get("/api/v1/products", getAllProducts)
+app.get("/api/v1/products", getAllProducts).post("/api/v1/products", createProduct)
+app.get("/api/v1/premium_products", getAllPremiumProducts).post("/api/v1/premium_products", createPremiumProduct)
 
-app.post("/api/v1/products", createProduct)
 app.get("/*", (req, res) => {
     res.status(404).json({msg: "Page not found"});
 })
