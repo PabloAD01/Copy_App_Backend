@@ -8,8 +8,10 @@ import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 
 //Routes
-import authRouter from "./routes/authRouter.js";
 import productRouter from "./routes/productRouter.js";
+import premiumProductRouter from "./routes/premiumProductRouter.js";
+import authRouter from "./routes/authRouter.js";
+import userRouter from "./routes/userRouter.js";
 
 //Middleware
 import errorMiddleware from "./middlewares/errorMiddleware.js";
@@ -21,7 +23,7 @@ if (process.env.NODE_ENV === "development") {
 
 app.use(cookieParser());
 
-app.use(express.json());
+app.use(express.json({ limit: "40mb" }));
 app.use(
   cors({
     origin: "*",
@@ -32,12 +34,9 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-app.get("/api/v1/users", (req, res) => {
-  res.status(200).json({ msg: "Users" });
-});
-
-app.use("/api/v1/products", authenticateUser, productRouter);
-app.use("/api/v1/premium_products", authenticateUser, productRouter);
+app.use("/api/v1/products", productRouter);
+app.use("/api/v1/premium_products", premiumProductRouter);
+app.use("/api/v1/users", authenticateUser, userRouter);
 app.use("/api/v1/auth", authRouter);
 
 app.get("/*", (req, res) => {

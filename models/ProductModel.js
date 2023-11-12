@@ -1,34 +1,43 @@
 import mongoose from "mongoose";
 
-const productSchema = new mongoose.Schema({
-  description: String,
-  price: String,
-  uploaded: String,
-  location: String,
-  like: Boolean,
-  cords: {
-    long: Number,
-    lat: Number,
-    longd: Number,
-    latd: Number,
+const productSchema = new mongoose.Schema(
+  {
+    title: String,
+    description: String,
+    price: String,
+    location: String,
+    cords: {
+      long: Number,
+      lat: Number,
+      longd: Number,
+      latd: Number,
+    },
+    like: {
+      type: Boolean,
+      default: false,
+    },
+    uploaded: {
+      type: String,
+      required: false,
+    },
+    location: {
+      type: String,
+      required: false,
+    },
+    info: {
+      type: Object,
+      default: {},
+    },
+    createdBy: {
+      type: mongoose.Types.ObjectId,
+      ref: "User",
+    },
+    imageUrls: {
+      type: [String],
+      required: false,
+    },
   },
-  like: Boolean,
-  uploaded: {
-    type: String,
-    required: false,
-  },
-  location: {
-    type: String,
-    required: false,
-  },
-  info: {
-    type: Object,
-    default: {},
-  },
-  createdBy: {
-    type: mongoose.Types.ObjectId,
-    ref: "User",
-  },
-});
+  { timestamps: true }
+);
 
 export default mongoose.model("Product", productSchema);

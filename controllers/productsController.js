@@ -4,14 +4,15 @@ import PremiumProduct from "../models/PremiumProductModel.js";
 
 export const getSingleProduct = async (req, res) => {
   const { id } = req.params;
-  const job = await Product.findById(id);
-  res.status(StatusCodes.OK).json({ job });
+  product;
+  const product = await Product.findById(id);
+  res.status(StatusCodes.OK).json({ product });
 };
 
 export const getSinglePremiumProduct = async (req, res) => {
   const { id } = req.params;
-  const job = await PremiumProduct.findById(id);
-  res.status(StatusCodes.OK).json({ job });
+  const product = await PremiumProduct.findById(id);
+  res.status(StatusCodes.OK).json({ product });
 };
 
 export const getAllProducts = async (req, res) => {
@@ -56,6 +57,12 @@ export const getAllPremiumProducts = async (req, res) => {
 
 export const createProduct = async (req, res) => {
   try {
+    req.body.createdBy = req.user.userId;
+
+    const imageUrls = req.body.images || [];
+
+    // Crea el producto con las URLs de las imágenes
+    req.body.imageUrls = imageUrls;
     const product = await Product.create(req.body);
     res.status(StatusCodes.CREATED).json({ product });
   } catch (error) {
@@ -86,14 +93,16 @@ export const updateProduct = async (req, res) => {
 
   res
     .status(StatusCodes.OK)
-    .json({ msg: "job modified successfully", updatedProduct });
+    .json({ msg: "product modified successfully", updatedProduct });
 };
 
 export const deleteProduct = async (req, res) => {
   const { id } = req.params;
   const removeProduct = await Product.findByIdAndDelete(id);
 
-  res.status(StatusCodes.OK).json({ msg: "job deleted", job: removeProduct });
+  res
+    .status(StatusCodes.OK)
+    .json({ msg: "product deleted", product: removeProduct });
 };
 
 export const updatePremiumProduct = async (req, res) => {
@@ -104,12 +113,14 @@ export const updatePremiumProduct = async (req, res) => {
 
   res
     .status(StatusCodes.OK)
-    .json({ msg: "job modified successfully", updatedProduct });
+    .json({ msg: "product modified successfully", updatedProduct });
 };
 
 export const deletePremiumProduct = async (req, res) => {
   const { id } = req.params;
   const removeProduct = await Product.findByIdAndDelete(id);
 
-  res.status(StatusCodes.OK).json({ msg: "job deleted", job: removeProduct });
+  res
+    .status(StatusCodes.OK)
+    .json({ msg: "product deleted", product: removeProduct });
 };
