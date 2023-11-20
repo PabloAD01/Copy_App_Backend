@@ -2,10 +2,23 @@ import { StatusCodes } from "http-status-codes";
 import Product from "../models/ProductModel.js";
 import PremiumProduct from "../models/PremiumProductModel.js";
 
+const options = {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+};
+
+const transformProductDate = (product) => ({
+  ...product.toObject(),
+  createdAt: product.createdAt.toLocaleDateString("es-ES", options),
+  updatedAt: product.updatedAt.toLocaleDateString("es-ES", options),
+});
+
 export const getSingleProduct = async (req, res) => {
   const { id } = req.params;
   product;
   const product = await Product.findById(id);
+
   res.status(StatusCodes.OK).json({ product });
 };
 
@@ -22,11 +35,16 @@ export const getAllProducts = async (req, res) => {
     const skip = (page - 1) * limit;
     const products = await Product.find().skip(skip).limit(limit);
 
+    const transformedProducts = products.map(transformProductDate);
+
     const totalProducts = await Product.countDocuments();
     const numOfPages = Math.ceil(totalProducts / limit);
-    res
-      .status(StatusCodes.OK)
-      .json({ products, totalProducts, numOfPages, currentPage: page });
+    res.status(StatusCodes.OK).json({
+      products: transformedProducts,
+      totalProducts,
+      numOfPages,
+      currentPage: page,
+    });
   } catch (error) {
     console.error(error);
     res

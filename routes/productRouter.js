@@ -17,9 +17,7 @@ import upload from "../middlewares/multerMiddleware.js";
 router
   .route("/")
   .get(getAllProducts)
-  .get(getAllPremiumProducts)
-  .post(authenticateUser, upload, createProduct)
-  .post(createPremiumProduct);
+  .post(authenticateUser, upload, createProduct);
 
 router
   .route("/:id")

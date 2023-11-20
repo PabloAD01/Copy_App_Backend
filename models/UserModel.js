@@ -1,23 +1,28 @@
 import mongoose from "mongoose";
 
-const UserSchema = new mongoose.Schema({
-  name: String,
-  email: String,
-  password: String,
-  lastName: {
-    type: String,
-    default: "lastName",
+const UserSchema = new mongoose.Schema(
+  {
+    name: String,
+    email: String,
+    password: String,
+    lastName: {
+      type: String,
+      default: "lastName",
+    },
+    location: {
+      type: String,
+      default: "Somewhere",
+    },
+    role: {
+      type: String,
+      enum: ["user", "admin"],
+      default: "user",
+    },
   },
-  location: {
-    type: String,
-    default: "Somewhere",
-  },
-  role: {
-    type: String,
-    enum: ["user", "admin"],
-    default: "user",
-  },
-});
+  {
+    timestamps: true,
+  }
+);
 
 UserSchema.methods.toJSON = function () {
   let obj = this.toObject();
