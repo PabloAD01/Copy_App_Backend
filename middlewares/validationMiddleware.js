@@ -78,7 +78,7 @@ export const validateUserInput = withValidationErrors([
     .isNumeric()
     .withMessage("phone must be a number")
     .isLength({
-      max: 10,
+      max: 9,
     })
-    .withMessage("phone must be at least 10 digits long"),
+    .withMessage("phone must be at least 9 digits long"),
 ]);

@@ -76,9 +76,7 @@ export const getAllPremiumProducts = async (req, res) => {
 export const createProduct = async (req, res) => {
   try {
     req.body.createdBy = req.user.userId;
-
     const imageUrls = req.body.images || [];
-
     // Crea el producto con las URLs de las imágenes
     req.body.imageUrls = imageUrls;
     const product = await Product.create(req.body);

@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 const productSchema = new mongoose.Schema(
   {
+    owner: String,
     title: String,
     description: String,
     price: String,
