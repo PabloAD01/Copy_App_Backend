@@ -6,7 +6,6 @@ const productSchema = new mongoose.Schema(
     title: String,
     description: String,
     price: String,
-    location: String,
     cords: {
       long: Number,
       lat: Number,
@@ -16,10 +15,6 @@ const productSchema = new mongoose.Schema(
     like: {
       type: Boolean,
       default: false,
-    },
-    uploaded: {
-      type: String,
-      required: false,
     },
     location: {
       type: String,
